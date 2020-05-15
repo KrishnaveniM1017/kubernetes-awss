@@ -1,0 +1,8 @@
+{
+  "etcdVersion": "3.3.10",
+  "timestamp": "1589544401",
+  "clusterSpec": {
+    "memberCount": 1,
+    "etcdVersion": "3.3.10"
+  }
+}

@@ -1,0 +1,43 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    k8s-addon: dns-controller.addons.k8s.io
+    k8s-app: dns-controller
+    version: v1.16.2
+  name: dns-controller
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: dns-controller
+  template:
+    metadata:
+      annotations:
+        scheduler.alpha.kubernetes.io/critical-pod: ""
+        scheduler.alpha.kubernetes.io/tolerations: '[{"key": "dedicated", "value":
+          "master"}]'
+      labels:
+        k8s-addon: dns-controller.addons.k8s.io
+        k8s-app: dns-controller
+        version: v1.16.2
+    spec:
+      containers:
+      - command:
+        - /usr/bin/dns-controller
+        - --watch-ingress=false
+        - --dns=aws-route53
+        - --zone=valaxy.in
+        - --zone=*/*
+        - -v=2
+        image: kope/dns-controller:1.16.2
+        name: dns-controller
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+      dnsPolicy: Default
+      hostNetwork: true
+      nodeSelector:
+        kubernetes.io/role: master

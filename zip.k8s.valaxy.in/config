@@ -1,0 +1,52 @@
+apiVersion: kops.k8s.io/v1alpha2
+kind: Cluster
+metadata:
+  creationTimestamp: "2020-05-15T10:45:57Z"
+  name: zip.k8s.valaxy.in
+spec:
+  api:
+    dns: {}
+  authorization:
+    rbac: {}
+  channel: stable
+  cloudProvider: aws
+  configBase: s3://zip.k8s.valaxy.in/zip.k8s.valaxy.in
+  dnsZone: valaxy.in
+  etcdClusters:
+  - cpuRequest: 200m
+    etcdMembers:
+    - instanceGroup: master-ca-central-1b
+      name: b
+    memoryRequest: 100Mi
+    name: main
+  - cpuRequest: 100m
+    etcdMembers:
+    - instanceGroup: master-ca-central-1b
+      name: b
+    memoryRequest: 100Mi
+    name: events
+  iam:
+    allowContainerRegistry: true
+    legacy: false
+  kubelet:
+    anonymousAuth: false
+  kubernetesApiAccess:
+  - 0.0.0.0/0
+  kubernetesVersion: 1.16.9
+  masterPublicName: api.zip.k8s.valaxy.in
+  networkCIDR: 172.20.0.0/16
+  networking:
+    kubenet: {}
+  nonMasqueradeCIDR: 100.64.0.0/10
+  sshAccess:
+  - 0.0.0.0/0
+  subnets:
+  - cidr: 172.20.32.0/19
+    name: ca-central-1b
+    type: Public
+    zone: ca-central-1b
+  topology:
+    dns:
+      type: Private
+    masters: public
+    nodes: public
